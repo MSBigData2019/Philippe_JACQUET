@@ -6,16 +6,16 @@ import numpy
 
 website_prefix = 'https://www.reuters.com/finance/stocks/financial-highlights/';
 
-def get_element_in_table(soup1, name, row, col):
-    title = soup1.find('h3', text=re.compile(name));
+def get_element_in_table(soup, name, row, col):
+    title = soup.find('h3', text=re.compile(name));
     table = title.parent.findNext('div').findChild('table');
     return table.findChildren('tr')[row].findChildren('td')[col].text;
 
-def get_stock_price(soup1):
-    return soup1.find('div', class_ = 'sectionQuote nasdaqChange').findChildren('span')[1].text.strip();
+def get_stock_price(soup):
+    return soup.find('div', class_ = 'sectionQuote nasdaqChange').findChildren('span')[1].text.strip();
 
-def get_stock_price_change(soup1):
-    div = soup1.find('div', class_ = 'sectionQuote priceChange');
+def get_stock_price_change(soup):
+    div = soup.find('div', class_ = 'sectionQuote priceChange');
     return div.findChild('span', text=re.compile(r'.*[0-9]%.*')).text.strip();
 
 def get_financial_results(name):
@@ -48,4 +48,4 @@ def show_results(names) :
     df = pandas.DataFrame(ar, index = index, columns = columns);
     return df;
 
-print(show_results(['DANO.PA', 'AIR.PA', 'LVMH.PA']))
+show_results(['DANO.PA', 'AIR.PA', 'LVMH.PA'])
